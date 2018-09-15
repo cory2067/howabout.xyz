@@ -1,7 +1,8 @@
 from flask import Flask
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, current_app
 from flask_pymongo import PyMongo
 from flask_dance.contrib.google import make_google_blueprint, google
+from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
 import bson.json_util
 import config
 import os
@@ -141,6 +142,11 @@ def about():
 def event_test(eid):
     res = mongo.db['events'].find_one({'eid': eid})
     return render_template('event_test.html', name=res['name'])
+
+@app.errorhandler(InvalidClientIdError)
+def token_expired(e):
+    del current_app.blueprints['google'].token
+    return redirect(url_for("google.login"))
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000)
