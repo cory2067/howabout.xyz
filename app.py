@@ -111,8 +111,9 @@ def get_event(eid):
     eid: Event ID
     name: User-friendly name of event
     host: Email of event creator
-    times: List of {"start_time": xxx, "end_time": xxx}, where
-           dates are in milliseconds since 1/1/1970
+    start_time: Time string(?) 
+    end_time: Time string(?)
+    dates: List of date strings(?)
 '''
 @app.route('/event_info', methods=['POST'])
 def insert_event():
