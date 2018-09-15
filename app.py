@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, redirect, url_for, request, current_app
+from flask import render_template, redirect, url_for, request, current_app, session
 from flask_pymongo import PyMongo
 from flask_dance.contrib.google import make_google_blueprint, google
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError
@@ -11,7 +11,6 @@ import forms
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
-
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = config.MONGO_URI
@@ -46,6 +45,9 @@ def login():
     if not google.authorized:
         return redirect(url_for("google.login"))
     resp = google.get("/oauth2/v2/userinfo")
+    session['email'] = resp.json()['email']
+    session['given_name'] = resp.json()['given_name']
+    print(resp.json())
     print("You are {email} on Google".format(email=resp.json()["email"]))
     return redirect('/')
 
@@ -143,7 +145,7 @@ def about():
 @app.route('/event_test/<eid>')
 def event_test(eid):
     res = mongo.db['events'].find_one({'eid': eid})
-    return render_template('event_test.html', name=res['name'])
+    return render_template('event_test.html', uid=session['uid'], name=res['name'], given_name=session['given_name'])
 
 @app.errorhandler(InvalidClientIdError)
 def token_expired(e):
