@@ -142,8 +142,49 @@ def get_event(eid):
 '''
 @app.route('/api/event', methods=['POST'])
 def post_event():
-    print(request.json)
-    return render_template('event.html')
+    event = {
+        'eid': request.json['eid'],
+        'name': request.json['uid'],
+        'host': request.json['host'],
+        'start_time': request.json['start_time'],
+        'end_time': request.json['end_time'],
+        'dates': request.json['dates'],
+    }
+
+    mongo.db['events'].insert(event)
+    return 'ok'
+
+'''
+    GET /api/availability
+    Get a user's availability for the event
+
+    eid: Event ID
+    uid: User ID
+'''
+@app.route('/api/availability')
+def get_availability():
+    db_filter = {
+        'eid': request.args.get('eid'),
+        'uid': request.args.get('uid'),
+    }
+
+    res = mongo.db['avail'].find_one(db_filter)
+    return json.dumps(bson.json_util.dumps(res))
+
+'''
+    GET /api/availabilities
+    Get all user availabilities for the event
+
+    eid: Event ID
+'''
+@app.route('/api/availabilities')
+def get_availabilities():
+    db_filter = {
+        'eid': request.args.get('eid')
+    }
+
+    res = mongo.db['avail'].find(db_filter)
+    return json.dumps(bson.json_util.dumps(res))
 
 '''
     POST /api/availability
@@ -163,6 +204,31 @@ def post_availability():
 
     mongo.db['avail'].insert(avail)
     return 'ok'
+
+'''
+    PUT /api/availability
+    Update a user's availability
+
+    eid: Event ID
+    uid: User ID
+    times: 2d array of booleans representing availability
+'''
+@app.route('/api/availability', methods=['PUT'])
+def put_availability():
+    db_filter = {
+        'eid': request.json['eid'],
+        'uid': request.json['uid'],
+    }
+
+    db_update = {
+        '$set': {
+            'times': request.json['times']
+        }
+    }
+
+    mongo.db['avail'].update_one(db_filter, db_update)
+    return 'ok'
+
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000)
