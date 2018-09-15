@@ -1,2 +1,4 @@
 Flask
 Flask-PyMongo
+git+https://github.com/imiric/flask-sass.git#egg=flask-sass
+
