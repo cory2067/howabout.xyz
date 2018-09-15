@@ -117,9 +117,9 @@ def insert_event():
 def about():
     return render_template('about.html')
 
-@app.route('/event/<eid>')
-def event(eid):
-    return render_template('event.html', eid=eid)
+@app.route('/event_test/<eid>')
+def event_test(eid):
+    return render_template('event_test.html', eid=eid)
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000)
