@@ -115,7 +115,7 @@ def get_event(eid):
 @app.route('/event_info', methods=['POST'])
 def insert_event():
     print(request.json)
-    return 'ok'
+    return render_template('event.html')
 
 '''
     POST /availability
