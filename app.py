@@ -5,6 +5,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 import config
 import os
 import json
+import forms
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
@@ -35,7 +36,8 @@ for c in mongo.db.collection_names():
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('create.html')
+    form = forms.EventForm()
+    return render_template('create.html', form=form)
 
 @app.route ('/login')
 def login():
