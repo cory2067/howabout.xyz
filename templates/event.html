@@ -6,18 +6,23 @@
 	<button id="create-button">Create New Event</button>
 	<button id="sync-button">Sync with Google Calendar</button>
 </div>
-<div class="calendar">
-	<p>Insert table of times/dates here</p>
-</div>
-<div class="right-hand-side">
-	<div id="input-name">
-		<p>Input your name here</p>
+<div class="container">
+	<div id="event-calendar" class="sidebyside">
+		<p>Insert table of times/dates here</p>
 	</div>
-	<div id="best-times">
-		<p>Compute and list out recommended best times</p>
+	<div id="submit-times">
+		<button id="submit-button">Submit Times</button>
 	</div>
-	<div id="available-people">
-		<p>Just like When2Meet, when you hover over some cells, you see people available and unavailable at that time</p>
+	<div class="sidebyside">
+		<div id="input-name" class="right-hand-side">
+			<p>Input your name here</p>
+		</div>
+		<div id="best-times" class="right-hand-side">
+			<p>Compute and list out recommended best times</p>
+		</div>
+		<div id="available-people" class="right-hand-side">
+			<p>Just like When2Meet, when you hover over some cells, you see people available and unavailable at that time</p>
+		</div>
 	</div>
 </div>
 {% endblock %}

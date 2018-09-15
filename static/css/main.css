@@ -1,3 +1,39 @@
+/*
+green: #53DD6C
+dark-blue: #564787
+blue: #5670B7
+light-blue: #7EB2DD
+white: #EBF5EE
+*/
+
+.container {
+	overflow:auto;
+}
+
+.sidebyside {
+	float:left;
+	width:40vw;
+	margin:20px;
+}
+
+.right-hand-side {
+	width:35vw;
+	margin:10px;
+}
+
+.available {
+	fill: #53DD6C;
+	stroke: black;
+	width:50px;
+	height:15px;
+
+.unavailable {
+	fill: #EBF5EE;
+	stroke: black;
+	width:50px;
+	height:15px;
+}
+
 body {	
 	background-color: #EBF5EE;
 }
@@ -8,8 +44,14 @@ h1 {
 	font-size: 56px;
 }
 
+h2 {
+	font-family: 'Ubuntu', sans-serif;
+	color: #283044;
+	font-size: 40px;
+}
+
 p {
-	font: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif;
 	color: #5670B7;
 	font-size: 14px;
 }

@@ -50,5 +50,9 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/event') # update redirect later to reflect different events
+def event(): 
+    return render_template('event.html')
+    
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000)
