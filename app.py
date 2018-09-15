@@ -26,6 +26,10 @@ blueprint = make_google_blueprint(
 
 app.register_blueprint(blueprint, url_prefix="/login")
 
+online_users = mongo.db.users.find_one({})
+for c in mongo.db.collection_names():
+    print(c)
+
 @app.route('/')
 @app.route('/index')
 def hello():
@@ -37,9 +41,6 @@ def hello():
     resp = google.get("/calendar/v3/users/me/calendarList")
     for cal in resp.json()['items']:
         print('cal {} is {}'.format(cal['id'], cal['summary']))
-
-    online_users = mongo.db.users.find_one({})
-    print(online_users)
     return render_template('index.html')
 
 if __name__ == "__main__":
