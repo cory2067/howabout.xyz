@@ -27,9 +27,9 @@ blueprint = make_google_blueprint(
 
 app.register_blueprint(blueprint, url_prefix="/login")
 
-online_users = mongo.db.users.find_one({})
-for c in mongo.db.collection_names():
-    print(c)
+# online_users = mongo.db.users.find_one({})
+# for c in mongo.db.collection_names():
+#     print(c)
 
 @app.route('/')
 @app.route('/index')
@@ -57,6 +57,32 @@ def getCalendars():
         id = cal['id']
         json_response[summary] = id
     return json.dumps(json_response)
+
+@app.route ('/getAvailability')
+def getAvailability():
+    if not google.authorized:
+        return 'Not logged in'
+
+    start_date = '2018-09-07T00:29:07.000Z'
+    end_date = '2018-09-20T00:29:07.000Z'
+    params = {
+        'timeMax': end_date,  # '2011-06-03T10:00:00-07:00',
+        'timeMin': start_date # '2011-06-03T10:00:00-07:00'
+    }
+
+    calendars = [
+    ]
+    events = []
+    for cal in calendars:
+        url = "/calendar/v3/calendars/{id}/events".format(id=cal)
+        resp = google.get(url, params=params)
+        print('\n\n\n', cal, '\n', resp.json().get('items', []))
+        for event in resp.json().get('items', []):
+            summary = event['summary']
+            start_time = event['start']
+            end_time = event['end']
+            events.append({summary: [start_time, end_time]})
+    return json.dumps(events)
 
 if __name__ == "__main__":
         app.run(host='127.0.0.1', port=8000)
