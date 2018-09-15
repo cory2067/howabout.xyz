@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="topbar">
+	<h2>howabout.xyz</h2>
+	<button id="create-button">Create New Event</button>
+	<button id="sync-button">Sync with Google Calendar</button>
+</div>
+<div class="calendar">
+	<p>Insert table of times/dates here</p>
+</div>
+<div class="right-hand-side">
+	<div id="input-name">
+		<p>Input your name here</p>
+	</div>
+	<div id="best-times">
+		<p>Compute and list out recommended best times</p>
+	</div>
+	<div id="available-people">
+		<p>Just like When2Meet, when you hover over some cells, you see people available and unavailable at that time</p>
+	</div>
+</div>
+{% endblock %}
