@@ -1,0 +1,15 @@
+body {	
+	background-color: #EBF5EE;
+}
+
+h1 {
+	font-family: 'Ubuntu', sans-serif, 500;
+	color: #283044;
+	font-size: 56px;
+}
+
+p {
+	font: 'Lato', sans-serif;
+	color: #5670B7;
+	font-size: 14px;
+}

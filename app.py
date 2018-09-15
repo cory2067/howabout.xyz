@@ -22,7 +22,8 @@ blueprint = make_google_blueprint(
         "https://www.googleapis.com/auth/plus.me",
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/calendar.readonly"
-    ]
+    ],
+    offline=True
 )
 
 app.register_blueprint(blueprint, url_prefix="/login")
@@ -34,7 +35,7 @@ app.register_blueprint(blueprint, url_prefix="/login")
 @app.route('/')
 @app.route('/index')
 def index():
-    return 'Hello world'
+    return render_template('create.html')
 
 @app.route ('/login')
 def login():
@@ -42,7 +43,7 @@ def login():
         return redirect(url_for("google.login"))
     resp = google.get("/oauth2/v2/userinfo")
     print("You are {email} on Google".format(email=resp.json()["email"]))
-    return render_template('index.html')
+    return redirect('/')
 
 @app.route('/getCalendars')
 def getCalendars():
@@ -50,6 +51,8 @@ def getCalendars():
         return 'Not logged in'
 
     resp = google.get("/calendar/v3/users/me/calendarList")
+    for cal in resp.json()['items']:
+        print('cal {} is {}'.format(cal['id'], cal['summary']))
 
     json_response = {}
     for cal in resp.json().get('items', []):
@@ -84,5 +87,10 @@ def getAvailability():
             events.append({summary: [start_time, end_time]})
     return json.dumps(events)
 
+    
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 if __name__ == "__main__":
-        app.run(host='127.0.0.1', port=8000)
+    app.run(host='127.0.0.1', port=8000)

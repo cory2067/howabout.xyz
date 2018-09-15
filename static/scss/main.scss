@@ -1,0 +1,27 @@
+$dark_blue: #283044;
+$blue: #5670B7;
+$light_blue: #7EB2DD;
+$white: #EBF5EE;
+$purple: #564787;
+$green: #53DD6C;
+
+$main-font: 'Lato', sans-serif;
+$friendly-font: 'M PLUS Rounded 1c', sans-serif;
+$ubuntu: 'Ubuntu', sans-serif, 400;
+$ubuntu-head: 'Ubuntu', sans-serif, 500;
+
+body {	
+	background-color: $white;
+}
+
+h1 {
+	font: 100% $ubuntu-head
+	color: $dark_blue
+	font-size: 56px;
+}
+
+p {
+	font: $main-font
+	color: $blue
+	font-size: 14px;
+}
