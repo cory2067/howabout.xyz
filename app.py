@@ -104,6 +104,7 @@ def get_event(eid):
     Inserts the given event into the database
 
     eid: Event ID
+    name: User-friendly name of event
     host: Email of event creator
     times: List of {"start_time": xxx, "end_time": xxx}, where
            dates are in milliseconds since 1/1/1970
@@ -113,13 +114,33 @@ def insert_event():
     print(request.json)
     return 'ok'
 
+'''
+    POST /availability
+    Insert a user's availability into the database
+
+    eid: Event ID
+    uid: User ID
+    times: 2d array of booleans representing availability
+'''
+@app.route('/availability', methods=['POST'])
+def post_availability():
+    avail = {
+        'eid': request.json['eid'],
+        'uid': request.json['uid'],
+        'times': request.json['times']
+    }
+
+    mongo.db['avail'].insert(avail)
+    return 'ok'
+
 @app.route('/about')
 def about():
     return render_template('about.html')
 
 @app.route('/event_test/<eid>')
 def event_test(eid):
-    return render_template('event_test.html', eid=eid)
+    res = mongo.db['events'].find_one({'eid': eid})
+    return render_template('event_test.html', name=res['name'])
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000)
