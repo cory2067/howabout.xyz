@@ -28,10 +28,9 @@ def main():
     #                                     orderBy='startTime').execute()
     # events = events_result.get('items', [])
 
-    events = service.calendarList().list().execute().get('items', [])
-
+    calendars = service.calendarList().list().execute().get('items', [])
     if not events:
-        print('No upcoming events found.')
+        print('No calendar found')
 
 
     # print(events)
