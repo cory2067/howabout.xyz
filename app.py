@@ -117,7 +117,7 @@ def get_event(eid):
 @app.route('/event_info', methods=['POST'])
 def insert_event():
     print(request.json)
-    return 'ok'
+    return render_template('event.html')
 
 '''
     POST /availability
@@ -142,6 +142,10 @@ def post_availability():
 def about():
     return render_template('about.html')
 
+@app.route('/event') # update redirect later to reflect different events
+def event(): 
+    return render_template('event.html')
+    
 @app.route('/event_test/<eid>')
 def event_test(eid):
     res = mongo.db['events'].find_one({'eid': eid})

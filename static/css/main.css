@@ -1,3 +1,40 @@
+/*
+green: #53DD6C
+dark-blue: #564787
+blue: #5670B7
+light-blue: #7EB2DD
+white: #EBF5EE
+*/
+
+.container {
+	overflow:auto;
+}
+
+.sidebyside {
+	float:left;
+	width:40vw;
+	margin:20px;
+}
+
+.right-hand-side {
+	width:35vw;
+	margin:10px;
+}
+
+.available {
+	fill: #53DD6C;
+	stroke: black;
+	width:50px;
+	height:15px;
+}
+
+.unavailable {
+	fill: #EBF5EE;
+	stroke: black;
+	width:50px;
+	height:15px;
+}
+
 body {	
 	width: 70%;
 	margin-left: auto;
@@ -10,6 +47,12 @@ h1 {
 	font-family: 'Ubuntu', sans-serif;
 	color: #283044;
 	font-size: 56px;
+}
+
+h2 {
+	font-family: 'Ubuntu', sans-serif;
+	color: #283044;
+	font-size: 40px;
 }
 
 p {
