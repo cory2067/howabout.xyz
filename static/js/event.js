@@ -9,17 +9,17 @@ function main() {
 	});
 }
 
-function selectFromHere(date,time) { // do this upon mouse down
+function selectFromHere(row,col) { // do this upon mouse down
 	// store this somewhere id
 	return false;
 }
 
-function recolor(date,time) { // change fill color for an individual cell
-	var id = "timeslot-"+date+"-"+time;
+function recolor(row,col) { // change fill color for an individual cell
+	var id = "#" + "timeslot-"+row+"-"+col;
 	
-	if ($(id).className == 'unavailable') {
-		$(id).attr('class', 'available');
+	if ($('#'+id).className == 'unavailable') {
+		$('#'+id).attr('class', 'available');
 	} else {
-		$(id).attr('class', 'unavailable')
+		$('#'+id).attr('class', 'unavailable')
 	}
 }
