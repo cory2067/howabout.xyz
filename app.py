@@ -1,7 +1,8 @@
 from flask import Flask
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_pymongo import PyMongo
 from flask_dance.contrib.google import make_google_blueprint, google
+import bson.json_util
 import config
 import os
 import json
@@ -45,8 +46,8 @@ def login():
     print("You are {email} on Google".format(email=resp.json()["email"]))
     return redirect('/')
 
-@app.route('/getCalendars')
-def getCalendars():
+@app.route('/calendars')
+def get_calendars():
     if not google.authorized:
         return 'Not logged in'
 
@@ -61,8 +62,8 @@ def getCalendars():
         json_response[summary] = id
     return json.dumps(json_response)
 
-@app.route ('/getAvailability')
-def getAvailability():
+@app.route('/availability')
+def get_availability():
     if not google.authorized:
         return 'Not logged in'
 
@@ -87,10 +88,38 @@ def getAvailability():
             events.append({summary: [start_time, end_time]})
     return json.dumps(events)
 
-    
+'''
+    GET /event_info/<eid>
+    Returns json object of event
+
+    eid: Event ID
+'''
+@app.route('/event_info/<eid>')
+def get_event(eid):
+    res = mongo.db['events'].find_one({'eid': eid})
+    return json.dumps(bson.json_util.dumps(res))
+
+'''
+    POST /event_info
+    Inserts the given event into the database
+
+    eid: Event ID
+    host: Email of event creator
+    times: List of {"start_time": xxx, "end_time": xxx}, where
+           dates are in milliseconds since 1/1/1970
+'''
+@app.route('/event_info', methods=['POST'])
+def insert_event():
+    print(request.json)
+    return 'ok'
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/event/<eid>')
+def event(eid):
+    return render_template('event.html', eid=eid)
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000)
