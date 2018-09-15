@@ -7,15 +7,13 @@ import config
 app = Flask(__name__)
 app.config["MONGO_URI"] = config.MONGO_URI
 mongo = PyMongo(app)
-sass(app, input_dir='static/scss', output_dir='static/css') # turns *.sass into *.css
+sass(app, input_dir='static/scss', output_dir='static/css') # turns *.scss into *.css
 
 @app.route('/')
-@app.route('/index')
-def hello():
+def about():
     online_users = mongo.db.users.find_one({})
     print(online_users)
-    return 'Hello, World!'
-    return render_template('index.html')
+    return render_template('about.html')
 
 if __name__ == "__main__":
         app.run(host='127.0.0.1', port=8000)
