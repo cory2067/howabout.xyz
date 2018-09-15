@@ -27,6 +27,10 @@ blueprint = make_google_blueprint(
 
 app.register_blueprint(blueprint, url_prefix="/login")
 
+online_users = mongo.db.users.find_one({})
+for c in mongo.db.collection_names():
+    print(c)
+
 @app.route('/')
 @app.route('/index')
 def index():
