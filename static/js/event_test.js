@@ -25,7 +25,7 @@ $(function() {
 
 
 		$.ajax({
-			url : '/availability',
+			url : '/api/availability',
 			type: "post",
 			data: JSON.stringify(payload),
 			dataType: "json",
@@ -36,7 +36,7 @@ $(function() {
 		})  
     });
 
-    $.getJSON('/event_info/1', function(res) {
+    $.getJSON('/api/event/1', function(res) {
         console.log(res);
     });
 });

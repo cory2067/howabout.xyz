@@ -67,8 +67,33 @@ def get_calendars():
         json_response[summary] = id
     return json.dumps(json_response)
 
-@app.route('/availability')
-def get_availability():
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/event') # update redirect later to reflect different events
+def event(): 
+    return render_template('event.html')
+    
+@app.route('/event_test/<eid>')
+def event_test(eid):
+    res = mongo.db['events'].find_one({'eid': eid})
+    return render_template('event_test.html', uid=session['uid'], name=res['name'], given_name=session['given_name'])
+
+@app.errorhandler(InvalidClientIdError)
+def token_expired(e):
+    del current_app.blueprints['google'].token
+    return redirect(url_for("google.login"))
+
+
+### API
+
+'''
+    GET /api/calendar
+    Returns Google calendar info from current user
+'''
+@app.route('/api/calendar')
+def get_calendar():
     if not google.authorized:
         return 'Not logged in'
 
@@ -94,18 +119,18 @@ def get_availability():
     return json.dumps(events)
 
 '''
-    GET /event_info/<eid>
+    GET /api/event/<eid>
     Returns json object of event
 
     eid: Event ID
 '''
-@app.route('/event_info/<eid>')
+@app.route('/api/event/<eid>')
 def get_event(eid):
     res = mongo.db['events'].find_one({'eid': eid})
     return json.dumps(bson.json_util.dumps(res))
 
 '''
-    POST /event_info
+    POST /api/event
     Inserts the given event into the database
 
     eid: Event ID
@@ -115,20 +140,20 @@ def get_event(eid):
     end_time: Time string(?)
     dates: List of date strings(?)
 '''
-@app.route('/event_info', methods=['POST'])
-def insert_event():
+@app.route('/api/event', methods=['POST'])
+def post_event():
     print(request.json)
     return render_template('event.html')
 
 '''
-    POST /availability
+    POST /api/availability
     Insert a user's availability into the database
 
     eid: Event ID
     uid: User ID
     times: 2d array of booleans representing availability
 '''
-@app.route('/availability', methods=['POST'])
+@app.route('/api/availability', methods=['POST'])
 def post_availability():
     avail = {
         'eid': request.json['eid'],
@@ -138,24 +163,6 @@ def post_availability():
 
     mongo.db['avail'].insert(avail)
     return 'ok'
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-@app.route('/event') # update redirect later to reflect different events
-def event(): 
-    return render_template('event.html')
-    
-@app.route('/event_test/<eid>')
-def event_test(eid):
-    res = mongo.db['events'].find_one({'eid': eid})
-    return render_template('event_test.html', uid=session['uid'], name=res['name'], given_name=session['given_name'])
-
-@app.errorhandler(InvalidClientIdError)
-def token_expired(e):
-    del current_app.blueprints['google'].token
-    return redirect(url_for("google.login"))
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000)
