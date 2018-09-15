@@ -9,7 +9,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def create():
-	online_users = mongo.db.users.find_one({})
+    online_users = mongo.db.users.find_one({})
     print(online_users)
     return render_template('create.html')
 
@@ -18,4 +18,4 @@ def about():
     return render_template('about.html')
 
 if __name__ == "__main__":
-        app.run(host='127.0.0.1', port=8000)
+    app.run(host='127.0.0.1', port=8000)
