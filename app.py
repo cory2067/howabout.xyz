@@ -3,7 +3,8 @@ from flask import render_template, redirect, url_for
 from flask_pymongo import PyMongo
 from flask_dance.contrib.google import make_google_blueprint, google
 import config
-import os 
+import os
+import json
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
@@ -34,17 +35,31 @@ for c in mongo.db.collection_names():
 @app.route('/')
 @app.route('/index')
 def index():
-    online_users = mongo.db.users.find_one({})
-    print(online_users)
+    return render_template('create.html')
+
+@app.route ('/login')
+def login():
     if not google.authorized:
         return redirect(url_for("google.login"))
     resp = google.get("/oauth2/v2/userinfo")
     print("You are {email} on Google".format(email=resp.json()["email"]))
+    return redirect('/')
+
+@app.route('/getCalendars')
+def getCalendars():
+    if not google.authorized:
+        return 'Not logged in'
 
     resp = google.get("/calendar/v3/users/me/calendarList")
     for cal in resp.json()['items']:
         print('cal {} is {}'.format(cal['id'], cal['summary']))
-    return render_template('create.html')
+    
+    json_response = {}
+    for cal in resp.json().get('items', []):
+        summary = cal['summary']
+        id = cal['id']
+        json_response[summary] = id
+    return json.dumps(json_response)
 
 @app.route('/about')
 def about():
