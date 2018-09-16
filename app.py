@@ -126,7 +126,6 @@ def get_calendars():
 def get_calendar():
     if not google.authorized:
         return 'Not logged in'
-
     res = mongo.db['events'].find_one_or_404({'eid': request.args['eid']})
     calendars = request.args.getlist('calendars[]')
     days = res['dates']
@@ -144,9 +143,13 @@ def get_calendar():
 
     events_list = []
     for cal in calendars:
+        print(cal)
         url = "/calendar/v3/calendars/{id}/events".format(id=cal)
         print (url, params)
         resp = google.get(url, params=params)
+        if resp.status_code != 200:
+            continue # oooof
+
         events = []
         for event in resp.json().get('items', []):
             summary = event['summary']
@@ -193,7 +196,7 @@ def get_calendar():
                 slot = int(initial_delay.total_seconds() / 60 / 15 + 0.5)
                 counter = 0
 
-                while (slot < len(day) and event_start + datetime.timedelta(minutes=15*counter) < event_end):
+                while (slot + counter < len(day) and event_start + datetime.timedelta(minutes=15*counter) < event_end):
                     day[slot + counter] = 0
                     counter += 1
 
