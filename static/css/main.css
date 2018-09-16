@@ -1,0 +1,118 @@
+.container {
+  overflow: auto;
+  user-select: none;
+}
+
+.sidebyside {
+  float: left;
+  width: 40vw;
+  margin: 20px;
+}
+
+.right-hand-side {
+  width: 35vw;
+  margin: 10px;
+}
+
+.date {
+  padding: 2px;
+  width: 50px;
+  display: inline-block;
+}
+
+.slot {
+  width: 50px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid #FFE5D9;
+}
+
+.selected {
+  background-color: green !important;
+}
+
+.calendar-squares {
+  font-family: "Lato", sans-serif;
+  padding: 5px 0px;
+}
+
+.date-squares {
+  font-size: 12px;
+  user-select: none;
+}
+
+.binary-container {
+  width: 800px;
+}
+
+.form-container {
+  float: left;
+}
+
+#dates-container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 14.2857142857% 14.2857142857% 14.2857142857% 14.2857142857% 14.2857142857% 14.2857142857% 14.2857142857%;
+  width: 45%;
+  background-color: #FFB18D;
+  border: 5px solid #FFB18D;
+  border-radius: 5px;
+}
+
+#dates-container > div {
+  display: block;
+  text-align: center;
+  background-color: white;
+  border: 1px solid #FFB18D;
+}
+
+body {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  background-color: #FFE5D9;
+}
+
+h1 {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 56px;
+  color: #9D8189;
+}
+
+h2 {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 40px;
+  color: #9D8189;
+}
+
+h3 {
+  font-family: "Lato", sans-serif;
+  font-size: 24px;
+  color: #FFB18D;
+}
+
+p {
+  display: inline;
+  font-family: "Lato", sans-serif;
+  color: #9D8189;
+}
+
+#import-button, #about-button {
+  padding: 5px 10px;
+  background-color: #F4ACB7;
+  color: #FFE5D9;
+  border: 2px solid #FFCAD4;
+  border-radius: 30px;
+  text-decoration: none;
+}
+
+#import-button:hover {
+  background-color: #F5B3BD;
+  cursor: pointer;
+}
+
+#about-button:hover {
+  background-color: #F5B3BD;
+  cursor: pointer;
+}
