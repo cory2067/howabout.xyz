@@ -56,22 +56,6 @@ def login():
     print("You are {email} on Google".format(email=resp.json()["email"]))
     return redirect('/')
 
-@app.route('/calendars')
-def get_calendars():
-    if not google.authorized:
-        return 'Not logged in'
-
-    resp = google.get("/calendar/v3/users/me/calendarList")
-    for cal in resp.json()['items']:
-        # print('cal {} is {}'.format(cal['id'], cal['summary']))
-        continue
-
-    json_response = {}
-    for cal in resp.json().get('items', []):
-        summary = cal['summary']
-        id = cal['id']
-        json_response[summary] = id
-    return json.dumps(json_response)
 
 @app.route('/about')
 def about():
@@ -95,6 +79,28 @@ def token_expired(e):
 
 
 ### API
+
+'''
+    GET /api/calendars
+    Returns list of calendars for given user
+'''
+@app.route('/api/calendars')
+def get_calendars():
+    if not google.authorized:
+        return 'Not logged in'
+
+    resp = google.get("/calendar/v3/users/me/calendarList")
+    for cal in resp.json()['items']:
+        # print('cal {} is {}'.format(cal['id'], cal['summary']))
+        continue
+
+    json_response = {}
+    for cal in resp.json().get('items', []):
+        summary = cal['summary']
+        id = cal['id']
+        json_response[summary] = id
+    return json.dumps(json_response)
+
 
 '''
     GET /api/calendar
