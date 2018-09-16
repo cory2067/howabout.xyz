@@ -76,6 +76,12 @@ def event(eid):
     res = mongo.db['events'].find_one({'eid': eid})
     return render_template('event.html', uid=session['uid'], event=res)
 
+@app.route('/results/<eid>')
+@app.route('/r/<eid>')
+def results(eid):
+    res = mongo.db['events'].find_one({'eid': eid})
+    return render_template('results.html', uid=session['uid'], event=res)
+
 @app.route('/event_test/<eid>')
 def event_test(eid):
     res = mongo.db['events'].find_one({'eid': eid})
