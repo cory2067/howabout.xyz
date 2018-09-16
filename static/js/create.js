@@ -1,3 +1,5 @@
+console.log(":<")
+
 function main() {
 	// create a calendar dom object out of diffs
 	createDayLabels();
@@ -9,6 +11,7 @@ function main() {
 }
 
 function createDayLabels() {
+	console.log("bullet hell");
 	const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 	for (let i = 0; i < 7; i++) {
@@ -19,34 +22,44 @@ function createDayLabels() {
 		text.innerHTML = dayNames[i];
 		it.appendChild(text);
 
-		$("#dates-picker").appendChild(it);
+		console.log("ff")
+		console.log(it)
+		$("#dates-picker").append(it);
 	}
+	$("#dates-picker").append("<br>");
 }
 
 function createCalendar() {
-	const dayPick = $("#dates-picker");
+	var container = document.getElementById("dates-picker");
+	var contRect = container.getBoundingClientRect();
+	var left = contRect.left;
+
 	const cal = document.createElement('div');
 	var aDay = new Date();
+	var dayInd = aDay.getDay();
+	console.log(dayInd);
 
-	for (let i=-2; i<3; i++) {
-		var newRow = document.createElement('div');
-		for (let j=-3; j<4; j++) {
-			var dateCell = document.createElement('div');
-			dateCell.className = "calendar-squares";
-
-			var numberOfDays = i*7+j;
-			aDay.setDate(aDay.getDate() + numberOfDays);
-			var day = aDay.getDate();
-			var month = aDay.getMonth()+1;
-			var year = aDay.getFullYear();
-
-			dateCell.innerHTML = month + '/' + day + '/' + year;
-			newRow.appendChild(dateCell);
+	for (let i=0; i<35; i++) {
+		var dateCell = document.createElement('div');
+		if (dayInd%7 == 0) {
+			dateCell.className = "calendar-squares-row-start date-squares";
 		}
-		cal.appendChild(newRow);
+		else {
+			dateCell.className = "calendar-squares date-squares";
+		}
+
+		var day = aDay.getDate();
+		var month = aDay.getMonth()+1;
+		var year = aDay.getFullYear();
+
+		dateCell.innerHTML = month + '/' + day + '/' + year%100;
+		aDay.setDate(aDay.getDate() + 1);
+		dayInd += 1
+
+		cal.appendChild(dateCell);
 	}
 
-	$("#dates-picker").appendChild(cal);
+	$("#dates-picker").append(cal);
 }
 
 function toJSON() {
@@ -64,7 +77,7 @@ function toJSON() {
 			console.log(r);
 		}
 	});
-
 }
 
-main();
+
+$(main);

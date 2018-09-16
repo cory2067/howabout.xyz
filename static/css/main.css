@@ -36,10 +36,20 @@ white: #EBF5EE
 }
 
 .calendar-squares {
-	display:inline-block;
+	font-family: 'Lato', sans-serif;
 	float:left;
-	width:25px;
+	width:60px;
 	height:25px;
+}
+
+.calendar-squares-row-start {
+	font-family: 'Lato', sans-serif;
+	width:60px;
+	height:25px;
+}
+
+.date-squares {
+	font-size:11px;
 }
 
 body {	
