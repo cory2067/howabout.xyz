@@ -3,3 +3,4 @@ config.py
 client_id.json
 *.swp
 static/css/*
+.sass-cache/*
