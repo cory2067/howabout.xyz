@@ -5,9 +5,20 @@ function main() {
 	createDayLabels();
 	createCalendar();
 
-	// format form data upon a button click
-	// var formData = JSON.stringify($("#create-form").serializeArray());
-	// var eventInfo = formatTimes(formData);
+	$('.date-squares').mouseenter(toggle);
+    $('.date-squares').mousedown(toggle);
+    
+    $('#dates-container').mousedown(function() {
+        dragging = true;
+        console.log("drag!");
+    });
+    
+    $('body').mouseup(function() {
+        dragging = false;
+        console.log(" nodrag!");
+        // submit();
+    });
+
 }
 
 function createDayLabels() {
@@ -35,11 +46,11 @@ function createCalendar() {
 
 	var aDay = new Date();
 	var dayInd = aDay.getDay();
-	console.log(dayInd);
 
 	for (let i=0; i<35; i++) {
 		var dateCell = document.createElement('div');
 		dateCell.className = "calendar-squares date-squares";
+		dateCell.id = "event-date-"+i;
 
 		var day = aDay.getDate();
 		var month = aDay.getMonth()+1;
@@ -47,9 +58,8 @@ function createCalendar() {
 
 		dateCell.innerHTML = month + '/' + day;
 		aDay.setDate(aDay.getDate() + 1);
-		dayInd += 1
 		container.appendChild(dateCell);
-	}	
+	}
 }
 
 function toJSON() {
