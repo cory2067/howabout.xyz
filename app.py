@@ -122,6 +122,7 @@ def get_calendar():
     events_list = []
     for cal in calendars:
         url = "/calendar/v3/calendars/{id}/events".format(id=cal)
+        print (url, params)
         resp = google.get(url, params=params)
         events = []
         for event in resp.json().get('items', []):
@@ -141,18 +142,18 @@ def get_calendar():
         event_end = None
         if 'dateTime' in event['start']:
             time = event['start']['dateTime'][:-6]
-            direction = event['start']['dateTime'][-6]
-            offset = event['start']['dateTime'][-5:]
+            # direction = event['start']['dateTime'][-6]
+            # offset = event['start']['dateTime'][-5:]
             event_start = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
-            delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset [3:]))
-            event_start += -1**(direction == '-') * delta
+            # delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset [3:]))
+            # event_start += -1**(direction == '-') * delta
         if 'dateTime' in event['end']:
             time = event['end']['dateTime'][:-6]
-            direction = event['end']['dateTime'][-6]
-            offset = event['end']['dateTime'][-5:]
+            # direction = event['end']['dateTime'][-6]
+            # offset = event['end']['dateTime'][-5:]
             event_end = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
-            delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset[3:]))
-            event_end += -1**(direction == '-') * delta
+            # delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset[3:]))
+            # event_end += -1**(direction == '-') * delta
         if not event_start or not event_end:
             continue
         if event_start.date() != event_end.date():
@@ -163,7 +164,16 @@ def get_calendar():
             stringer = convertToString(event_start)
             if stringer in set_of_days:
                 indexer = days.index(stringer)
-                print(stringer)
+                day = availability[indexer]
+                delta_days =  (event_start - initial).days
+                initial_delay = event_start - initial - datetime.timedelta(days=delta_days)
+                slot = int(initial_delay.total_seconds() / 60 / 15 + 0.5)
+                counter = 0
+
+                while (slot < len(day) and event_start + datetime.timedelta(minutes=15*counter) < event_end):
+                    day[slot + counter] = 0
+                    counter += 1
+
             else:
                 print('EVENT NOT  IN  LIST', event)
     return json.dumps(availability)
@@ -239,9 +249,9 @@ def get_availabilities():
     }
 
     res = mongo.db['avail'].find(db_filter)
-    
+
     if not res.count():
-        abort(404) 
+        abort(404)
 
     res = list(res)
     dates = len(res[0]['times'])
