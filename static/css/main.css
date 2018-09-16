@@ -35,6 +35,13 @@ white: #EBF5EE
 	height:15px;
 }
 
+.calendar-squares {
+	display:inline-block;
+	float:left;
+	width:25px;
+	height:25px;
+}
+
 body {	
 	width: 70%;
 	margin-left: auto;

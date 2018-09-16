@@ -142,7 +142,7 @@ def get_event(eid):
 '''
 @app.route('/api/event', methods=['POST'])
 def post_event():
-    print(request.json)
+    print(request.form)
     return render_template('event.html')
 
 '''

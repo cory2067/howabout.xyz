@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="/static/js/create.js"></script>
 <h1>create an event</h1>
 
 <!-- event calendar interface goes here -->
@@ -9,16 +10,22 @@
 <br><br>
 
 <p>...or select date/time manually</p>
-<form id="create-form", action="/event_info"> <!-- TODO: connect this form to event.html -->
-	<p>from:</p>
+<form id="create-form">
+	<p id="from-time-picker">from:</p>
 		{{ form.from_time() }}<br>
 
-	<p>to:</p>
+	<p id="to-time-picker">to:</p>
 		{{ form.to_time() }}<br>
 
-	<p>dates: [insert calendar here]</p><br>
+	<div id="dates-picker">
+		<p class="side-by-side">
+			dates:
+		</p>
+		<!-- insert a bunch of side-by-side divs -->
+	</div>
+	<br>
 
-	<p>timezone: [insert timezone selector here]</p><br>
+	<p id="timezone-select">timezone: [insert timezone selector here]</p><br>
 
 	{{ form.submit() }}
 </form>
