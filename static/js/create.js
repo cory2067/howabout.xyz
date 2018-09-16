@@ -73,14 +73,16 @@ function toJSON() {
 		}, {});
 	o.eid = pad(Math.floor(Math.random() * 999999), 6); // generates random 6-digit id number
 	o.dates = [];
+	console.log("fuuuuuu");
 	$.ajax({
-		url: "api/event",
+		url: "/api/event",
 		type: "post",
 		data: JSON.stringify(o),
 		dataType: "json",
 		contentType: "application/json",
-		success: function(r) {
-			console.log(r);
+		complete: function(r) {
+			console.log("eh?");
+			window.location.href = "/event/"+o.eid // redirect
 		}
 	});
 }

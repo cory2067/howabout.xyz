@@ -239,6 +239,7 @@ def post_event():
     }
 
     mongo.db['events'].insert(event)
+    print("hmmm")
     return 'ok'
 
 '''
