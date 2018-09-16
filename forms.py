@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired
-from wtforms import SelectField, SubmitField
+from wtforms import SelectField, SubmitField, StringField
 
 class EventForm(FlaskForm):
     # constructs the <select> tag of the form
@@ -15,5 +15,11 @@ class EventForm(FlaskForm):
         l.append(('{:02d}:00:00.000'.format(i), val))
     l.append(('23:59:59.999'.format(i), "midnight"))
 
-    start_time = SelectField(choices=l)
-    end_time = SelectField(choices=l)
+    start_time = SelectField(choices=l, validators=[DataRequired()])
+    end_time = SelectField(choices=l, validators=[DataRequired()])
+    uid = StringField('event name: ', validators=[DataRequired()])
+    host = StringField('email: ', validators=[DataRequired()])
+
+    # todo: dates field, a List of date strings
+
+
