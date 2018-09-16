@@ -71,9 +71,11 @@ def get_calendars():
 def about():
     return render_template('about.html')
 
-@app.route('/event') # update redirect later to reflect different events
-def event(): 
-    return render_template('event.html')
+@app.route('/event/<eid>')
+@app.route('/e/<eid>')
+def event(eid): 
+    res = mongo.db['events'].find_one({'eid': eid})
+    return render_template('event.html', uid=session['uid'], event=res)
     
 @app.route('/event_test/<eid>')
 def event_test(eid):
