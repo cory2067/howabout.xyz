@@ -1,3 +1,13 @@
+$green: #98E2B6;
+$misty-rose: #FFE5D9;
+$bubble-gum: #FFCAD4;
+$pink-orange: #FFB18D;
+$pink: #F4ACB7;
+$lighter-pink: #F5B3BD;
+$mud-pink: #9D8189;
+
+$d: (1/7)*100%;
+
 .container {
 	overflow:auto;
     user-select: none;
@@ -36,8 +46,9 @@
 
 .slot {
     width: 50px;
-    height: 15px;
+    height: 20px;
     background-color: white;
+    border: 2px solid $misty-rose;
 }
 
 .selected {
@@ -53,16 +64,6 @@
 	font-size:12px;
 	user-select: none;
 }
-
-$green: #98E2B6;
-$misty-rose: #FFE5D9;
-$bubble-gum: #FFCAD4;
-$pink-orange: #FFB18D;
-$pink: #F4ACB7;
-$lighter-pink: #F5B3BD;
-$mud-pink: #9D8189;
-
-$d: (1/7)*100%;
 
 .binary-container {
 	width: 800px;
