@@ -91,8 +91,30 @@ $(function() {
         }
     });
 
-    $.getJSON('/api/event/1', function(res) {
-        console.log(res);
+    $('#getcal').click(function() {
+        $.getJSON('/api/calendars', function(res) {
+            const clist = [];
+            for (let cal in res) {
+                if (res[cal].selected) {
+                    clist.push(res[cal]['id']);
+                }
+            }
+
+            $.getJSON('/api/calendar', {"calendars": clist, "eid": eid}, function(res) {
+                for (let day = 0; day < width; day++) {
+                    for (let slot = 0; slot < height; slot++) {
+                        let obj = $("#slot-" + day + "-" + slot);
+                        if (res[day][slot]) {
+                            obj.addClass("selected");
+                        } else {
+                            obj.removeClass("selected");
+                        }
+                    }
+                }
+
+                submit();
+            });
+        });
     });
 });
 
