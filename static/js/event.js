@@ -1,11 +1,13 @@
+var eid = window.location.pathname.split('/').pop();
 var dragging = false;
 var width, height;
 
 function toggle() {
     const sp = event.target.id.split('-')
     console.log(sp[1] + "   " + sp[2]);
-    if (dragging || event.type === "mousedown")
+    if (dragging || event.type === "mousedown") {
         $(this).toggleClass("selected");
+    }
 }
 
 function getAvail() {
@@ -25,11 +27,9 @@ function getAvail() {
 
 function submit() {
     const payload = {
-        eid: '1',
-        uid: 'kyaaaga@gmail.com',
+        eid: eid,
         times: getAvail()
     };
-
 
     $.ajax({
         url : '/api/availability',
@@ -44,8 +44,6 @@ function submit() {
 }
 
 $(function() {
-	const eid = window.location.pathname.split('/').pop();
-
 	$.getJSON('/api/availabilities', {eid: eid}, function(res) {
         width = res.length;
         height = res[0].length;
