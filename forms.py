@@ -20,6 +20,4 @@ class EventForm(FlaskForm):
     uid = StringField('event name: ', validators=[DataRequired()])
     host = StringField('email: ', validators=[DataRequired()])
 
-    # todo: dates field, a List of date strings
-
 

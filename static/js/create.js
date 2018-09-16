@@ -20,7 +20,6 @@ function getDates() {
 }
 
 function main() {
-	// create a calendar dom object out of diffs
 	createDayLabels();
 	createCalendar();
 
