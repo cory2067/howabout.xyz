@@ -67,6 +67,8 @@ function toJSON() {
 		.reduce(function(a, x) {
 			a[x.name] = x.value; return a; 
 		}, {});
+	o.eid = pad(Math.floor(Math.random() * 999999), 6); // generates random 6-digit id number
+	o.dates = [];
 	$.ajax({
 		url: "api/event",
 		type: "post",
@@ -79,5 +81,14 @@ function toJSON() {
 	});
 }
 
+function pad(n, size) {
+    var s = n+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+function formatTimes(fromTime, toTime, dates, timeZones) {
+	return [];
+}
 
 $(main);

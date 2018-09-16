@@ -45,7 +45,7 @@ def login():
     if not google.authorized:
         return redirect(url_for("google.login"))
     resp = google.get("/oauth2/v2/userinfo")
-    session['email'] = resp.json()['email']
+    session['uid'] = resp.json()['email']
     session['given_name'] = resp.json()['given_name']
     print(resp.json())
     print("You are {email} on Google".format(email=resp.json()["email"]))
@@ -71,9 +71,11 @@ def get_calendars():
 def about():
     return render_template('about.html')
 
-@app.route('/event') # update redirect later to reflect different events
-def event(): 
-    return render_template('event.html')
+@app.route('/event/<eid>')
+@app.route('/e/<eid>')
+def event(eid): 
+    res = mongo.db['events'].find_one({'eid': eid})
+    return render_template('event.html', uid=session['uid'], event=res)
     
 @app.route('/event_test/<eid>')
 def event_test(eid):
@@ -141,6 +143,7 @@ def get_event(eid):
 '''
 @app.route('/api/event', methods=['POST'])
 def post_event():
+    print("DEBUG: request.json is \n" + str(request.json))
     event = {
         'eid': request.json['eid'],
         'name': request.json['uid'],
@@ -208,14 +211,14 @@ def get_availabilities():
     Insert a user's availability into the database
 
     eid: Event ID
-    uid: User ID
+    (temporarily removed) uid: User ID
     times: 2d array of booleans representing availability
 '''
 @app.route('/api/availability', methods=['POST'])
 def post_availability():
     avail = {
         'eid': request.json['eid'],
-        'uid': request.json['uid'],
+        'uid': session['uid'],
         'times': request.json['times']
     }
 
@@ -227,14 +230,14 @@ def post_availability():
     Update a user's availability
 
     eid: Event ID
-    uid: User ID
+    (temporarily removed) uid: User ID
     times: 2d array of booleans representing availability
 '''
 @app.route('/api/availability', methods=['PUT'])
 def put_availability():
     db_filter = {
         'eid': request.json['eid'],
-        'uid': request.json['uid'],
+        'uid': session['uid'],
     }
 
     db_update = {
@@ -243,7 +246,7 @@ def put_availability():
         }
     }
 
-    mongo.db['avail'].update_one(db_filter, db_update)
+    mongo.db['avail'].update_one(db_filter, db_update, upsert=True)
     return 'ok'
 
 

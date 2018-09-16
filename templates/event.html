@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="/static/js/event.js"></script>
+
 <div class="topbar">
 	<h2>howabout.xyz</h2>
-	<button id="create-button">Create New Event</button>
 	<button id="sync-button">Sync with Google Calendar</button>
+    <h3>pick availability for {{event.name}}</h3>
+    <h3>i want to die, {{uid}}</h3>
 </div>
 <div class="container">
-	<div id="event-calendar" class="sidebyside">
-		<p>Insert table of times/dates here</p>
+	<div id="cal" class="sidebyside">
 	</div>
 	<div class="sidebyside">
 		<div id="input-name" class="right-hand-side">
