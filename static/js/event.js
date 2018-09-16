@@ -36,7 +36,7 @@ function submit() {
 }
 
 $(function() {
-	$.getJSON('/api/availabilities', {eid: eid}, function(res) {
+	$.getJSON('/api/availability', {eid: eid}, function(res) {
         width = res.length;
         height = res[0].length;
 
@@ -51,6 +51,10 @@ $(function() {
                     id: "slot-" + date + "-" + slot,
                     class: "slot"
                 });
+
+                if (res[date][slot]) {
+                    elt.addClass("selected");
+                }
 
                 $('#date-' + date).append(elt);
 				console.log(res[date][slot]);
