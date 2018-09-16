@@ -49,6 +49,7 @@ $green: #98E2B6;
 $misty-rose: #FFE5D9;
 $bubble-gum: #FFCAD4;
 $pink: #F4ACB7;
+$lighter-pink: #F5B3BD;
 $mud-pink: #9D8189;
 
 body {	
@@ -75,6 +76,19 @@ p {
 	display: inline;
 	font-family: 'Lato', sans-serif;
 	color: $mud-pink;
+}
+
+#google-button {
+	padding: 5px 10px;
+	background-color: $pink;
+	color: $misty-rose;
+	border: 2px solid $bubble-gum;
+	border-radius: 30px;
+	text-decoration: none;
+}
+
+#google-button:hover {
+	background-color: $lighter-pink;
 }
 
 /*
