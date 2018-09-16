@@ -246,7 +246,7 @@ def put_availability():
         }
     }
 
-    mongo.db['avail'].update_one(db_filter, db_update)
+    mongo.db['avail'].update_one(db_filter, db_update, upsert=True)
     return 'ok'
 
 

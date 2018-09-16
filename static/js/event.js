@@ -1,4 +1,5 @@
 var dragging = false;
+var width, height;
 
 function toggle() {
     const sp = event.target.id.split('-')
@@ -7,17 +8,55 @@ function toggle() {
         $(this).toggleClass("selected");
 }
 
+function getAvail() {
+    let avail = []
+
+    for (let date = 0; date < width; date++) {
+        avail.push([])
+
+        for (let slot = 0; slot < height; slot++) {
+            avail[date].push($("#slot-" + date + "-" + slot).hasClass("selected"));
+        }
+    }
+
+    console.log(avail);
+    return avail;
+}
+
+function submit() {
+    const payload = {
+        eid: '1',
+        uid: 'kyaaaga@gmail.com',
+        times: getAvail()
+    };
+
+
+    $.ajax({
+        url : '/api/availability',
+        type: 'put',
+        data: JSON.stringify(payload),
+        dataType: "json",
+        contentType: "application/json",
+        success: function(res) {
+            console.log(res);   
+        }
+    });
+}
+
 $(function() {
 	const eid = window.location.pathname.split('/').pop();
 
 	$.getJSON('/api/availabilities', {eid: eid}, function(res) {
-		for (let date = 0; date < res.length; date++) {
+        width = res.length;
+        height = res[0].length;
+
+		for (let date = 0; date < width; date++) {
             $("#cal").append($("<div/>", { 
                 id: "date-" + date ,
                 class: "date"
             }));
 
-			for (let slot = 0; slot < res[0].length; slot++) {
+			for (let slot = 0; slot < height; slot++) {
                 let elt = $('<div>', {
                     id: "slot-" + date + "-" + slot,
                     class: "slot"
@@ -30,6 +69,7 @@ $(function() {
 
         $('.slot').mouseenter(toggle);
         $('.slot').mousedown(toggle);
+        submit();
 	});
     
     $('#cal').mousedown(function() {
@@ -37,46 +77,16 @@ $(function() {
         console.log("drag!");
     });
     
-    $('#cal').mouseup(function() {
+    $('body').mouseup(function() {
         dragging = false;
         console.log(" nodrag!");
+        submit();
     });
 
     $('.date').change(function() {
         if(this.checked) {
             console.log("you checked " + this.id[1] + " " + this.id[2]);
         }
-    });
-
-    $('#submit').click(function() {
-        let avail = []
-
-        for (let date = 0; date < 2; date++) {
-            avail.push([])
-
-            for (let slot = 0; slot < 4; slot++) {
-                avail[date].push($("#slot-" + date + "-" + slot).hasClass("selected"));
-            }
-        }
-
-        console.log(avail);
-        const payload = {
-            eid: '1',
-            uid: 'kyaaa@gmail.com',
-            times: avail
-        };
-
-
-		$.ajax({
-			url : '/api/availability',
-			type: "post",
-			data: JSON.stringify(payload),
-			dataType: "json",
-			contentType: "application/json",
-			success: function(res) {
-				console.log(res);   
-			}
-		})  
     });
 
     $.getJSON('/api/event/1', function(res) {
