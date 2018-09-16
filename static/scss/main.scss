@@ -52,6 +52,7 @@
 
 .date-squares {
 	font-size:11px;
+	user-select: none;
 }
 
 /* possible color palette 1 */
@@ -68,7 +69,6 @@ $mud-pink: #9D8189;
 }
 
 .form-container {
-	width: 50%;
 	float: left;
 }
 
