@@ -143,6 +143,7 @@ def get_event(eid):
 '''
 @app.route('/api/event', methods=['POST'])
 def post_event():
+    print("DEBUG: request.json is \n" + str(request.json))
     event = {
         'eid': request.json['eid'],
         'name': request.json['uid'],

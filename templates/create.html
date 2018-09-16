@@ -11,6 +11,8 @@
 
 <p>...or select date/time manually</p>
 <form id="create-form"> <!-- TODO: connect this form to event.html -->
+	<p>{{ form.uid.label }}</p>{{ form.uid() }}<br>
+	<p>{{ form.host.label }}</p>{{ form.host() }}<br>
 	<p>from:</p>
 		{{ form.start_time() }}<br>
 
