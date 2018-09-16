@@ -114,7 +114,8 @@ def get_calendar():
 
     params = {
         'timeMax': '{}T{}Z'.format(days[-1], end_time),
-        'timeMin': '{}T{}Z'.format(days[0], start_time)
+        'timeMin': '{}T{}Z'.format(days[0], start_time),
+        'singleEvents': True
     }
 
     print(params)
