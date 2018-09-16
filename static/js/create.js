@@ -7,11 +7,11 @@ function toggle() {
 }
 
 function getDates() {
-	let currentYear = new Date().getFullYear();
+	const currentYear = new Date().getFullYear();
 	console.log(currentYear);
-	let dates = [];
+	const dates = [];
 	for (let i=0; i<35; i++) {
-		let c = '#event-date-'+i;
+		const c = '#event-date-'+i;
 		if ($(c).hasClass("selected")) {
 			dates.push(currentYear + "-" + $(c).text().split('/').map(s => pad(s,2)).join('-'));
 		}
@@ -94,7 +94,7 @@ function toJSON() {
 		contentType: "application/json",
 		complete: function(r) {
 			console.log("eh?");
-			window.location.href = "/event/"+o.eid // redirect
+			window.location.replace("/event/"+o.eid) // redirect
 		}
 	});
 }

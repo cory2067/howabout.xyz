@@ -2,6 +2,14 @@ var eid = window.location.pathname.split('/').pop();
 var dragging = false;
 var width, height;
 
+function toggle() {
+    const sp = event.target.id.split('-')
+    console.log(sp[1] + "   " + sp[2]);
+    if (dragging || event.type === "mousedown") {
+        $(this).toggleClass("selected");
+    }
+}
+
 function getAvail() {
     let avail = []
 
