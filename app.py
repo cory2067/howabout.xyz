@@ -246,17 +246,16 @@ def post_event():
     Get a user's availability for the event
 
     eid: Event ID
-    uid: User ID
 '''
 @app.route('/api/availability')
 def get_availability():
     db_filter = {
         'eid': request.args.get('eid'),
-        'uid': request.args.get('uid'),
+        'uid': session['uid'],
     }
 
     res = mongo.db['avail'].find_one(db_filter)
-    return json.dumps(bson.json_util.dumps(res))
+    return bson.json_util.dumps(res['times'])
 
 '''
     GET /api/availabilities
