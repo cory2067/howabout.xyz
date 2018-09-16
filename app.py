@@ -45,7 +45,7 @@ def login():
     if not google.authorized:
         return redirect(url_for("google.login"))
     resp = google.get("/oauth2/v2/userinfo")
-    session['email'] = resp.json()['email']
+    session['uid'] = resp.json()['email']
     session['given_name'] = resp.json()['given_name']
     print(resp.json())
     print("You are {email} on Google".format(email=resp.json()["email"]))
@@ -211,14 +211,14 @@ def get_availabilities():
     Insert a user's availability into the database
 
     eid: Event ID
-    uid: User ID
+    (temporarily removed) uid: User ID
     times: 2d array of booleans representing availability
 '''
 @app.route('/api/availability', methods=['POST'])
 def post_availability():
     avail = {
         'eid': request.json['eid'],
-        'uid': request.json['uid'],
+        'uid': session['uid'],
         'times': request.json['times']
     }
 
@@ -230,14 +230,14 @@ def post_availability():
     Update a user's availability
 
     eid: Event ID
-    uid: User ID
+    (temporarily removed) uid: User ID
     times: 2d array of booleans representing availability
 '''
 @app.route('/api/availability', methods=['PUT'])
 def put_availability():
     db_filter = {
         'eid': request.json['eid'],
-        'uid': request.json['uid'],
+        'uid': session['uid'],
     }
 
     db_update = {
