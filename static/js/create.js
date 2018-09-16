@@ -6,6 +6,19 @@ function toggle() {
 	}
 }
 
+function getDates() {
+	let currentYear = new Date().getFullYear();
+	console.log(currentYear);
+	let dates = [];
+	for (let i=0; i<35; i++) {
+		let c = '#event-date-'+i;
+		if ($(c).hasClass("selected")) {
+			dates.push(currentYear + "-" + $(c).text().split('/').map(s => pad(s,2)).join('-'));
+		}
+	}
+	return dates;
+}
+
 function main() {
 	// create a calendar dom object out of diffs
 	createDayLabels();
@@ -72,7 +85,7 @@ function toJSON() {
 			a[x.name] = x.value; return a; 
 		}, {});
 	o.eid = pad(Math.floor(Math.random() * 999999), 6); // generates random 6-digit id number
-	o.dates = [];
+	o.dates = getDates();
 	$.ajax({
 		url: "api/event",
 		type: "post",
@@ -89,10 +102,6 @@ function pad(n, size) {
     var s = n+"";
     while (s.length < size) s = "0" + s;
     return s;
-}
-
-function formatTimes(fromTime, toTime, dates, timeZones) {
-	return [];
 }
 
 $(main);
