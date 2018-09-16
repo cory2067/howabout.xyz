@@ -255,6 +255,16 @@ def get_availability():
     }
 
     res = mongo.db['avail'].find_one(db_filter)
+    if not res:
+        # Generate an empty avail chart
+        eres = mongo.db['events'].find_one_or_404({'eid': request.args.get('eid')})
+        initial = datetime.datetime.strptime(eres['start_time'],"%H:%M:%S.%f")
+        final = datetime.datetime.strptime(eres['end_time'],"%H:%M:%S.%f")
+        duration = final-initial
+        intervals = int(duration.total_seconds() / 60 / 15 + 0.5)
+        avail = [[False] * intervals for x in eres['dates']]
+        return json.dumps(avail)
+
     return bson.json_util.dumps(res['times'])
 
 '''
