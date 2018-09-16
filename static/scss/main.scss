@@ -44,6 +44,23 @@
     background-color: green;
 }
 
+.calendar-squares {
+	font-family: 'Lato', sans-serif;
+	float:left;
+	width:60px;
+	height:25px;
+}
+
+.calendar-squares-row-start {
+	font-family: 'Lato', sans-serif;
+	width:60px;
+	height:25px;
+}
+
+.date-squares {
+	font-size:11px;
+}
+
 /* possible color palette 1 */
 $green: #98E2B6;
 $misty-rose: #FFE5D9;

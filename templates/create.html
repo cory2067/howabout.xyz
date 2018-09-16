@@ -14,7 +14,18 @@
 		{{ form.start_time() }}<br>
 
 	<p>to:</p>
-		{{ form.end_time() }}<br>
+		{{ form.end_time() }}
+	<br>
+	<p class="side-by-side">
+		dates:
+	</p>
+	
+	<div id="dates-picker">
+		<!-- insert a bunch of side-by-side divs -->
+	</div>
+	<br>
+
+	<p>timezone: [insert timezone selector here]</p><br>
 </form>
 
 <button onclick="toJSON()">create event</button><br><br>
