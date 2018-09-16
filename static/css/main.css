@@ -35,6 +35,22 @@ white: #EBF5EE
 	height:15px;
 }
 
+.date {
+    padding: 2px;
+    width: 50px;
+    display: inline-block;
+}
+
+.slot {
+    width: 50px;
+    height: 15px;
+    background-color: white;
+}
+
+.selected {
+    background-color: green;
+}
+
 body {	
 	width: 70%;
 	margin-left: auto;

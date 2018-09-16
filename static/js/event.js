@@ -1,13 +1,7 @@
 function toggle() {
     const sp = event.target.id.split('-')
     console.log(sp[1] + "   " + sp[2]);
-    
-    console.log("aa"+$(this).text()+"bb")
-    if ($(this).text() == "[ ]") {
-        $(this).text("[X]");
-    } else {
-        $(this).text("[ ]");
-    }
+    $(this).toggleClass("selected");
 }
 
 $(function() {
