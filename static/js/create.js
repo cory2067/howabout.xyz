@@ -1,18 +1,30 @@
-console.log(":<")
+dragging = false;
+
+function toggle() {
+	if (dragging || event.type === "mousedown") {
+		$(this).toggleClass("selected");
+	}
+}
 
 function main() {
 	// create a calendar dom object out of diffs
 	createDayLabels();
 	createCalendar();
-
-	// format form data upon a button click
-	// var formData = JSON.stringify($("#create-form").serializeArray());
-	// var eventInfo = formatTimes(formData);
 }
 
+$(function() {
+	$('#dates-container').mousedown(function() {
+		dragging = true;
+		console.log("dragging!");
+	});
+	$('body').mouseup(function() {
+		dragging = false;
+		console.log("no dragging!");
+	})
+});
+
 function createDayLabels() {
-	console.log("bullet hell");
-	const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 	for (let i = 0; i < 7; i++) {
 		const it = document.createElement('div');

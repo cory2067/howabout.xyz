@@ -46,25 +46,27 @@
 
 .calendar-squares {
 	font-family: 'Lato', sans-serif;
-	width:60px;
-	height:25px;
+	padding: 5px 0px;
 }
 
 .date-squares {
-	font-size:11px;
+	font-size:12px;
 }
 
 /* possible color palette 1 */
 $green: #98E2B6;
 $misty-rose: #FFE5D9;
 $bubble-gum: #FFCAD4;
+$pink-orange: #FFB18D;
 $pink: #F4ACB7;
 $lighter-pink: #F5B3BD;
 $mud-pink: #9D8189;
 
+$d: (1/7)*100%;
+
 .binary-container {
 	margin: auto;
-	width: 600px;
+	width: 800px;
 }
 
 .form-container {
@@ -73,16 +75,22 @@ $mud-pink: #9D8189;
 }
 
 #dates-container {
+	margin: 0 auto;
 	display: grid;
-	grid-template-columns: 14% 14% 14% 14% 14% 14% 14%;
+	grid-template-columns: $d $d $d $d $d $d $d;
 	width: 45%;
+	background-color: $pink-orange;
+	border: 5px solid $pink-orange;
+	border-radius: 5px;
 
 }
 
 #dates-container > div {
+	display: block;
 	text-align: center;
+	background-color: white;
+	border: 1px solid $pink-orange;
 }
-
 
 body {	
 	width: 70%;
@@ -123,10 +131,13 @@ p {
 	background-color: $lighter-pink;
 }
 
-/*
-green: #53DD6C
-dark-blue: #564787
-blue: #5670B7
-light-blue: #7EB2DD
-white: #EBF5EE
-*/
+// disables text highlighting
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}

@@ -4,23 +4,22 @@
 <script src="/static/js/create.js"></script>
 <h1>create an event</h1>
 <div class="binary-container">
+
 	<div class="form-container">
-	<form id="create-form">
-		<p>{{ form.uid.label }}</p>{{ form.uid() }}<br>
-		<p>{{ form.host.label }}</p>{{ form.host() }}<br>
-		<p>from:</p>
-			{{ form.start_time() }}<br>
-
-		<p>to:</p>
-			{{ form.end_time() }}
-		<br>
-	</form>
-
-	<button onclick="toJSON()">create event</button><br><br>
+		<form id="create-form">
+			<p>{{ form.uid.label }}</p>{{ form.uid() }}<br>
+			<p>{{ form.host.label }}</p>{{ form.host() }}<br>
+			<p>from:</p>
+				{{ form.start_time() }}<br>
+			<p>to:</p>
+				{{ form.end_time() }}
+			<br>
+		</form>
+		<button onclick="toJSON()">create event</button><br><br>
 	</div>
 
-	<div id="dates-container">
-	</div>
+	<div id="dates-container" class="noselect"></div>
+
 </div>
 
 <p>sync with google calendar:</p> <a href="/login" class="button default" id="google-button"><p>sync with <i class="fa fa-google"></i></p></a>
