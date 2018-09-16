@@ -49,7 +49,7 @@ def test():
 @app.route('/login')
 def login():
     # sketchy way of redir back to original caller
-    session['redir'] = request.args.get('redir') if 'redir' in request.args else '/' 
+    session['redir'] = request.args.get('redir') if 'redir' in request.args else '/'
     if not google.authorized:
         return redirect(url_for("google.login"))
     return redirect('/login_success')
@@ -69,13 +69,13 @@ def about():
 
 @app.route('/event/<eid>')
 @app.route('/e/<eid>')
-def event(eid): 
+def event(eid):
     if not google.authorized:
         return redirect(url_for('login', redir=request.path))
 
     res = mongo.db['events'].find_one({'eid': eid})
     return render_template('event.html', uid=session['uid'], event=res)
-    
+
 @app.route('/event_test/<eid>')
 def event_test(eid):
     res = mongo.db['events'].find_one({'eid': eid})
@@ -99,6 +99,7 @@ def get_calendars():
 
     resp = google.get("/calendar/v3/users/me/calendarList")
     for cal in resp.json()['items']:
+        print (cal)
         # print('cal {} is {}'.format(cal['id'], cal['summary']))
         continue
 
@@ -106,7 +107,8 @@ def get_calendars():
     for cal in resp.json().get('items', []):
         summary = cal['summary']
         id = cal['id']
-        json_response[summary] = id
+        selected = 'selected' in cal
+        json_response[summary] = (id, selected)
     return json.dumps(json_response)
 
 
@@ -118,7 +120,7 @@ def get_calendars():
     calendars[]: List of ID for desired calendars
 '''
 @app.route('/api/calendar')
-def get_calendar(): 
+def get_calendar():
     if not google.authorized:
         return 'Not logged in'
 
