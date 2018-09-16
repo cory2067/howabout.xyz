@@ -2,5 +2,5 @@ __pycache__/*
 config.py
 client_id.json
 *.swp
-run.sh
 static/css/*
+.sass-cache/*
