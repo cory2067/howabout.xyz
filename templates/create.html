@@ -4,9 +4,6 @@
 <script src="/static/js/create.js"></script>
 <h1>create an event</h1>
 
-<!-- event calendar interface goes here -->
-<p>calendar goes here</p><br><br>
-
 <form id="create-form">
 	<p>{{ form.uid.label }}</p>{{ form.uid() }}<br>
 	<p>{{ form.host.label }}</p>{{ form.host() }}<br>
@@ -24,8 +21,6 @@
 		<!-- insert a bunch of side-by-side divs -->
 	</div>
 	<br>
-
-	<p>timezone: [insert timezone selector here]</p><br>
 </form>
 
 <button onclick="toJSON()">create event</button><br><br>
