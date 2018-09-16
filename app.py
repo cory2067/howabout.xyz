@@ -168,31 +168,23 @@ def get_calendar():
         event_end = None
         if 'dateTime' in event['start']:
             time = event['start']['dateTime'][:-6]
-            # direction = event['start']['dateTime'][-6]
-            # offset = event['start']['dateTime'][-5:]
             event_start = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
-            # delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset [3:]))
-            # event_start += -1**(direction == '-') * delta
         if 'dateTime' in event['end']:
             time = event['end']['dateTime'][:-6]
-            # direction = event['end']['dateTime'][-6]
-            # offset = event['end']['dateTime'][-5:]
             event_end = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
-            # delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset[3:]))
-            # event_end += -1**(direction == '-') * delta
         if not event_start or not event_end:
             continue
         if event_start.date() != event_end.date():
             print(event_start.date(), event_end.date())
             print('BAD DATA')
         else:
-            print (event, event_start, event_end)
+            # print (event, event_start, event_end)
             stringer = convertToString(event_start)
             if stringer in set_of_days:
                 indexer = days.index(stringer)
                 day = availability[indexer]
-                delta_days =  (event_start - initial).days
-                initial_delay = event_start - initial - datetime.timedelta(days=delta_days)
+                event_start_time = datetime.datetime(1900, 1, 1, hour=event_start.hour, minute=event_start.minute, second=event_start.second)
+                initial_delay = event_start_time - initial # - datetime.timedelta(days=delta_days)
                 slot = int(initial_delay.total_seconds() / 60 / 15 + 0.5)
                 counter = 0
 
