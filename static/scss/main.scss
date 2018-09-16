@@ -24,20 +24,6 @@ $d: (1/7)*100%;
 	margin:10px;
 }
 
-.available {
-	fill: #53DD6C;
-	stroke: black;
-	width:50px;
-	height:15px;
-}
-
-.unavailable {
-	fill: #EBF5EE;
-	stroke: black;
-	width:50px;
-	height:15px;
-}
-
 .date {
     padding: 2px;
     width: 50px;
@@ -139,7 +125,3 @@ p {
 #about-button:hover {
 	background-color: $lighter-pink;
 }
-
-
-
-

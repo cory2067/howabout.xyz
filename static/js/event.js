@@ -73,7 +73,7 @@ $(function() {
         $('.slot').mousedown(toggle);
         submit();
 	});
-    
+	
     $('#cal').mousedown(function() {
         dragging = true;
         console.log("drag!");
