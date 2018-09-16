@@ -66,7 +66,6 @@ $mud-pink: #9D8189;
 $d: (1/7)*100%;
 
 .binary-container {
-	margin: auto;
 	width: 800px;
 }
 
@@ -124,17 +123,13 @@ p {
 	color: $mud-pink;
 }
 
-#google-button, #import-button {
+#import-button, #about-button {
 	padding: 5px 10px;
 	background-color: $pink;
 	color: $misty-rose;
 	border: 2px solid $bubble-gum;
 	border-radius: 30px;
 	text-decoration: none;
-}
-
-#google-button:hover {
-	background-color: $lighter-pink;
 }
 
 #import-button:hover {
