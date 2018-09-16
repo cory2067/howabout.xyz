@@ -8,6 +8,7 @@ import config
 import os
 import json
 import forms
+import datetime
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
@@ -40,6 +41,10 @@ def index():
     form = forms.EventForm()
     return render_template('create.html', form=form)
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
 @app.route ('/login')
 def login():
     if not google.authorized:
@@ -58,7 +63,8 @@ def get_calendars():
 
     resp = google.get("/calendar/v3/users/me/calendarList")
     for cal in resp.json()['items']:
-        print('cal {} is {}'.format(cal['id'], cal['summary']))
+        # print('cal {} is {}'.format(cal['id'], cal['summary']))
+        continue
 
     json_response = {}
     for cal in resp.json().get('items', []):
@@ -99,25 +105,84 @@ def get_calendar():
     if not google.authorized:
         return 'Not logged in'
 
-    start_date = '2018-09-07T00:29:07.000Z'
-    end_date = '2018-09-20T00:29:07.000Z'
+
+    calendars = request.args.getlist('calendars[]')
+    days = request.args.getlist('days[]')
+    print(days)
+    set_of_days = set(days)
+    start_time = request.args.get('timeStart')
+    end_time = request.args.get('timeEnd')
+
+
     params = {
-        'timeMax': end_date,  # '2011-06-03T10:00:00-07:00',
-        'timeMin': start_date # '2011-06-03T10:00:00-07:00'
+        'timeMax': '{}T{}Z'.format(days[-1], end_time),
+        'timeMin': '{}T{}Z'.format(days[0], start_time),
+        'singleEvents': True
     }
 
-    calendars = []
-    events = []
+    print(params)
+
+    events_list = []
     for cal in calendars:
         url = "/calendar/v3/calendars/{id}/events".format(id=cal)
+        print (url, params)
         resp = google.get(url, params=params)
-        print('\n\n\n', cal, '\n', resp.json().get('items', []))
+        events = []
         for event in resp.json().get('items', []):
             summary = event['summary']
-            start_time = event['start']
-            end_time = event['end']
-            events.append({summary: [start_time, end_time]})
-    return json.dumps(events)
+            start = event['start']
+            end = event['end']
+            events_list.append({'name':summary, 'start':start, 'end':end})
+
+    initial = datetime.datetime.strptime(start_time,"%H:%M:%S.%f")
+    final = datetime.datetime.strptime(end_time,"%H:%M:%S.%f")
+    duration = final-initial
+    intervals = int(duration.total_seconds() / 60 / 15 + 0.5)
+    availability = [[1] * intervals for x in days]
+
+    for event in events_list:
+        event_start = None
+        event_end = None
+        if 'dateTime' in event['start']:
+            time = event['start']['dateTime'][:-6]
+            # direction = event['start']['dateTime'][-6]
+            # offset = event['start']['dateTime'][-5:]
+            event_start = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
+            # delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset [3:]))
+            # event_start += -1**(direction == '-') * delta
+        if 'dateTime' in event['end']:
+            time = event['end']['dateTime'][:-6]
+            # direction = event['end']['dateTime'][-6]
+            # offset = event['end']['dateTime'][-5:]
+            event_end = datetime.datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
+            # delta = datetime.timedelta(hours=int(offset[:2]), minutes=int(offset[3:]))
+            # event_end += -1**(direction == '-') * delta
+        if not event_start or not event_end:
+            continue
+        if event_start.date() != event_end.date():
+            print(event_start.date(), event_end.date())
+            print('BAD DATA')
+        else:
+            print (event, event_start, event_end)
+            stringer = convertToString(event_start)
+            if stringer in set_of_days:
+                indexer = days.index(stringer)
+                day = availability[indexer]
+                delta_days =  (event_start - initial).days
+                initial_delay = event_start - initial - datetime.timedelta(days=delta_days)
+                slot = int(initial_delay.total_seconds() / 60 / 15 + 0.5)
+                counter = 0
+
+                while (slot < len(day) and event_start + datetime.timedelta(minutes=15*counter) < event_end):
+                    day[slot + counter] = 0
+                    counter += 1
+
+            else:
+                print('EVENT NOT  IN  LIST', event)
+    return json.dumps(availability)
+
+def convertToString(DateTime):
+    return "{:04d}-{:02d}-{:02d}".format(DateTime.year, DateTime.month, DateTime.day)
 
 '''
     GET /api/event/<eid>
@@ -137,7 +202,7 @@ def get_event(eid):
     eid: Event ID
     name: User-friendly name of event
     host: Email of event creator
-    start_time: Time string(?) 
+    start_time: Time string(?)
     end_time: Time string(?)
     dates: List of date strings(?)
 '''
@@ -188,9 +253,9 @@ def get_availabilities():
     }
 
     res = mongo.db['avail'].find(db_filter)
-    
+
     if not res.count():
-        abort(404) 
+        abort(404)
 
     res = list(res)
     dates = len(res[0]['times'])
