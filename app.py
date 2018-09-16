@@ -350,4 +350,8 @@ def put_availability():
 
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=8000)
+    if 'HOWABOUT_PRODUCTION' in os.environ:
+        app.run(host='0.0.0.0', port=80)
+    else:
+        app.run(host='127.0.0.1', port=8000)
+
