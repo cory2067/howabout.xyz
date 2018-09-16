@@ -91,7 +91,7 @@ $(function() {
         }
     });
 
-    $('#getcal').click(function() {
+    $('#import-button').click(function() {
         $.getJSON('/api/calendars', function(res) {
             const clist = [];
             for (let cal in res) {

@@ -6,14 +6,15 @@
 
 <div class="topbar">
 	<h2>howabout.xyz</h2>
-	<!-- <button id="sync-button">Sync with Google Calendar</button> -->
-    <p>pick availability for {{event.name}}</p>
-    <p>i want to die, {{uid}}</p>
+	
+    <p><b>choose availability for event:</b> {{event.name}}</p><br>
+    <p><b>synced to google calendar:</b> {{uid}}</p><br>
+    
 </div>
 <div class="container">
 	<div id="cal" class="sidebyside">
 	</div>
-	<div class="sidebyside">
+<!-- 	<div class="sidebyside">
 		<div id="input-name" class="right-hand-side">
 			<p>Input your name here</p>
 		</div>
@@ -23,8 +24,6 @@
 		<div id="available-people" class="right-hand-side">
 			<p>Just like When2Meet, when you hover over some cells, you see people available and unavailable at that time</p>
 		</div>
-	</div>
+	</div> -->
 </div>
-
-<button id="getcal">Import</button>
 {% endblock %}

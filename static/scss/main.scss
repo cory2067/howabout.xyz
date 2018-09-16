@@ -124,7 +124,7 @@ p {
 	color: $mud-pink;
 }
 
-#google-button {
+#google-button, #import-button {
 	padding: 5px 10px;
 	background-color: $pink;
 	color: $misty-rose;
@@ -136,3 +136,10 @@ p {
 #google-button:hover {
 	background-color: $lighter-pink;
 }
+
+#import-button:hover {
+	background-color: $lighter-pink;
+}
+
+
+
