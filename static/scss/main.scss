@@ -46,13 +46,6 @@
 
 .calendar-squares {
 	font-family: 'Lato', sans-serif;
-	float:left;
-	width:60px;
-	height:25px;
-}
-
-.calendar-squares-row-start {
-	font-family: 'Lato', sans-serif;
 	width:60px;
 	height:25px;
 }
@@ -68,6 +61,28 @@ $bubble-gum: #FFCAD4;
 $pink: #F4ACB7;
 $lighter-pink: #F5B3BD;
 $mud-pink: #9D8189;
+
+.binary-container {
+	margin: auto;
+	width: 600px;
+}
+
+.form-container {
+	width: 50%;
+	float: left;
+}
+
+#dates-container {
+	display: grid;
+	grid-template-columns: 14% 14% 14% 14% 14% 14% 14%;
+	width: 45%;
+
+}
+
+#dates-container > div {
+	text-align: center;
+}
+
 
 body {	
 	width: 70%;

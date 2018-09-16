@@ -24,42 +24,32 @@ function createDayLabels() {
 
 		console.log("ff")
 		console.log(it)
-		$("#dates-picker").append(it);
+		$("#dates-container").append(it);
 	}
-	$("#dates-picker").append("<br>");
 }
 
 function createCalendar() {
-	var container = document.getElementById("dates-picker");
+	var container = document.getElementById("dates-container");
 	var contRect = container.getBoundingClientRect();
 	var left = contRect.left;
 
-	const cal = document.createElement('div');
 	var aDay = new Date();
 	var dayInd = aDay.getDay();
 	console.log(dayInd);
 
 	for (let i=0; i<35; i++) {
 		var dateCell = document.createElement('div');
-		if (dayInd%7 == 0) {
-			dateCell.className = "calendar-squares-row-start date-squares";
-		}
-		else {
-			dateCell.className = "calendar-squares date-squares";
-		}
+		dateCell.className = "calendar-squares date-squares";
 
 		var day = aDay.getDate();
 		var month = aDay.getMonth()+1;
 		var year = aDay.getFullYear();
 
-		dateCell.innerHTML = month + '/' + day + '/' + year%100;
+		dateCell.innerHTML = month + '/' + day;
 		aDay.setDate(aDay.getDate() + 1);
 		dayInd += 1
-
-		cal.appendChild(dateCell);
-	}
-
-	$("#dates-picker").append(cal);
+		container.appendChild(dateCell);
+	}	
 }
 
 function toJSON() {
