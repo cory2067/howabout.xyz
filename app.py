@@ -64,6 +64,7 @@ def about():
 @app.route('/event/<eid>')
 @app.route('/e/<eid>')
 def event(eid): 
+    return redirect(url_for("google.login"))
     res = mongo.db['events'].find_one({'eid': eid})
     return render_template('event.html', uid=session['uid'], event=res)
     
@@ -105,20 +106,21 @@ def get_calendars():
 '''
     GET /api/calendar
     Returns Google calendar info from current user
+
+    eid: Event ID
+    calendars[]: List of ID for desired calendars
 '''
 @app.route('/api/calendar')
-def get_calendar():
+def get_calendar(): 
     if not google.authorized:
         return 'Not logged in'
 
-
+    res = mongo.db['events'].find_one_or_404({'eid': request.args['eid']})
     calendars = request.args.getlist('calendars[]')
-    days = request.args.getlist('days[]')
-    print(days)
+    days = res['dates']
     set_of_days = set(days)
-    start_time = request.args.get('timeStart')
-    end_time = request.args.get('timeEnd')
-
+    start_time = res['start_time']
+    end_time = res['end_time']
 
     params = {
         'timeMax': '{}T{}Z'.format(days[-1], end_time),
