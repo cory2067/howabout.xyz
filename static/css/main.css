@@ -112,7 +112,7 @@ p {
   color: #9D8189;
 }
 
-#import-button, #about-button {
+.button {
   padding: 5px 10px;
   background-color: #F4ACB7;
   color: #FFE5D9;
@@ -121,12 +121,8 @@ p {
   text-decoration: none;
 }
 
-#import-button:hover {
+.button:hover {
   background-color: #F5B3BD;
   cursor: pointer;
 }
 
-#about-button:hover {
-  background-color: #F5B3BD;
-  cursor: pointer;
-}
