@@ -10,12 +10,12 @@
 <br><br>
 
 <p>...or select date/time manually</p>
-<form id="create-form">
-	<p id="from-time-picker">from:</p>
-		{{ form.from_time() }}<br>
+<form id="create-form"> <!-- TODO: connect this form to event.html -->
+	<p>from:</p>
+		{{ form.start_time() }}<br>
 
-	<p id="to-time-picker">to:</p>
-		{{ form.to_time() }}<br>
+	<p>to:</p>
+		{{ form.end_time() }}<br>
 
 	<div id="dates-picker">
 		<p class="side-by-side">
@@ -25,8 +25,8 @@
 	</div>
 	<br>
 
-	<p id="timezone-select">timezone: [insert timezone selector here]</p><br>
-
-	{{ form.submit() }}
+	<p>timezone: [insert timezone selector here]</p><br>
 </form>
+
+<button onclick="toJSON()">create event</button>
 {% endblock %}

@@ -1,3 +1,4 @@
 __pycache__/*
 config.py
 client_id.json
+*.swp
