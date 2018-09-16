@@ -75,6 +75,11 @@
   border: 1px solid #FFB18D;
 }
 
+#userlist {
+  font-family: "Lato", sans-serif;
+  color: #9D8189;
+}
+
 body {
   width: 70%;
   margin-left: auto;
