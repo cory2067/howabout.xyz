@@ -108,7 +108,10 @@ def get_calendars():
         summary = cal['summary']
         id = cal['id']
         selected = 'selected' in cal
-        json_response[summary] = (id, selected)
+        json_response[summary] = {
+            'id': id,
+            'selected': selected
+        }
     return json.dumps(json_response)
 
 
