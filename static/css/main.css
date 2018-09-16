@@ -8,6 +8,7 @@ white: #EBF5EE
 
 .container {
 	overflow:auto;
+    user-select: none;
 }
 
 .sidebyside {

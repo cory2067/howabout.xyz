@@ -1,7 +1,10 @@
+var dragging = false;
+
 function toggle() {
     const sp = event.target.id.split('-')
     console.log(sp[1] + "   " + sp[2]);
-    $(this).toggleClass("selected");
+    if (dragging || event.type === "mousedown")
+        $(this).toggleClass("selected");
 }
 
 $(function() {
@@ -17,7 +20,7 @@ $(function() {
 			for (let slot = 0; slot < res[0].length; slot++) {
                 let elt = $('<div>', {
                     id: "slot-" + date + "-" + slot,
-                    class: "slot",
+                    class: "slot"
                 });
 
                 $('#date-' + date).append(elt);
@@ -26,9 +29,19 @@ $(function() {
 		}
 
         $('.slot').mouseenter(toggle);
+        $('.slot').mousedown(toggle);
 	});
+    
+    $('#cal').mousedown(function() {
+        dragging = true;
+        console.log("drag!");
+    });
+    
+    $('#cal').mouseup(function() {
+        dragging = false;
+        console.log(" nodrag!");
+    });
 
-	
     $('.date').change(function() {
         if(this.checked) {
             console.log("you checked " + this.id[1] + " " + this.id[2]);
@@ -42,14 +55,14 @@ $(function() {
             avail.push([])
 
             for (let slot = 0; slot < 4; slot++) {
-                avail[date].push($("#d" + date + slot).is(":checked"));
+                avail[date].push($("#slot-" + date + "-" + slot).hasClass("selected"));
             }
         }
 
         console.log(avail);
         const payload = {
             eid: '1',
-            uid: 'cjl2625@gmail.com',
+            uid: 'kyaaa@gmail.com',
             times: avail
         };
 
