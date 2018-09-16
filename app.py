@@ -49,7 +49,7 @@ def test():
 @app.route('/login')
 def login():
     # sketchy way of redir back to original caller
-    session['redir'] = request.args.get('redir') if 'redir' in request.args else '/' 
+    session['redir'] = request.args.get('redir') if 'redir' in request.args else '/'
     if not google.authorized:
         return redirect(url_for("google.login"))
     return redirect('/login_success')
@@ -69,13 +69,13 @@ def about():
 
 @app.route('/event/<eid>')
 @app.route('/e/<eid>')
-def event(eid): 
+def event(eid):
     if not google.authorized:
         return redirect(url_for('login', redir=request.path))
 
     res = mongo.db['events'].find_one({'eid': eid})
     return render_template('event.html', uid=session['uid'], event=res)
-    
+
 @app.route('/event_test/<eid>')
 def event_test(eid):
     res = mongo.db['events'].find_one({'eid': eid})
@@ -99,6 +99,7 @@ def get_calendars():
 
     resp = google.get("/calendar/v3/users/me/calendarList")
     for cal in resp.json()['items']:
+        print (cal)
         # print('cal {} is {}'.format(cal['id'], cal['summary']))
         continue
 
@@ -106,7 +107,11 @@ def get_calendars():
     for cal in resp.json().get('items', []):
         summary = cal['summary']
         id = cal['id']
-        json_response[summary] = id
+        selected = 'selected' in cal
+        json_response[summary] = {
+            'id': id,
+            'selected': selected
+        }
     return json.dumps(json_response)
 
 
@@ -118,7 +123,7 @@ def get_calendars():
     calendars[]: List of ID for desired calendars
 '''
 @app.route('/api/calendar')
-def get_calendar(): 
+def get_calendar():
     if not google.authorized:
         return 'Not logged in'
 
@@ -241,17 +246,26 @@ def post_event():
     Get a user's availability for the event
 
     eid: Event ID
-    uid: User ID
 '''
 @app.route('/api/availability')
 def get_availability():
     db_filter = {
         'eid': request.args.get('eid'),
-        'uid': request.args.get('uid'),
+        'uid': session['uid'],
     }
 
     res = mongo.db['avail'].find_one(db_filter)
-    return json.dumps(bson.json_util.dumps(res))
+    if not res:
+        # Generate an empty avail chart
+        eres = mongo.db['events'].find_one_or_404({'eid': request.args.get('eid')})
+        initial = datetime.datetime.strptime(eres['start_time'],"%H:%M:%S.%f")
+        final = datetime.datetime.strptime(eres['end_time'],"%H:%M:%S.%f")
+        duration = final-initial
+        intervals = int(duration.total_seconds() / 60 / 15 + 0.5)
+        avail = [[False] * intervals for x in eres['dates']]
+        return json.dumps(avail)
+
+    return bson.json_util.dumps(res['times'])
 
 '''
     GET /api/availabilities

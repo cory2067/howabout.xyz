@@ -51,6 +51,7 @@
 
 .date-squares {
 	font-size:12px;
+	user-select: none;
 }
 
 /* possible color palette 1 */
@@ -70,7 +71,6 @@ $d: (1/7)*100%;
 }
 
 .form-container {
-	width: 50%;
 	float: left;
 }
 
@@ -129,15 +129,4 @@ p {
 
 #google-button:hover {
 	background-color: $lighter-pink;
-}
-
-// disables text highlighting
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
 }
