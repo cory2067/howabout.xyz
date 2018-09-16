@@ -52,7 +52,11 @@ $(function() {
             $("#cal").append($("<div/>", { 
                 id: "date-" + date ,
                 class: "date"
-            }));
+           }));
+
+            let label = $('<div>', {
+                class: "slot"
+            });
 
 			for (let slot = 0; slot < height; slot++) {
                 let elt = $('<div>', {

@@ -13,6 +13,11 @@
 </div>
 <div class="container">
 	<div id="cal" class="sidebyside">
+        <div id="date-header-div" style="height: 36px">
+            {% for d in event["dates"] %}
+                <p class="date-header">{{'-'.join(d.split('-')[1:])}}</p>
+            {% endfor %}
+        </div>
 	</div>
 <!-- 	<div class="sidebyside">
 		<div id="input-name" class="right-hand-side">

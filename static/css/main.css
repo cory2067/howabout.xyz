@@ -27,6 +27,15 @@
   border: 2px solid #FFE5D9;
 }
 
+#date-header-div {
+    height: 36px;
+}
+
+.date-header {
+    width: 52px;
+    display: inline-block;
+}
+
 .selected {
   background-color: green !important;
 }
