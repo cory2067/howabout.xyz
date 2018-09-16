@@ -26,6 +26,7 @@ blueprint = make_google_blueprint(
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/calendar.readonly"
     ],
+    redirect_url="/login_success",
     offline=True
 )
 
@@ -45,17 +46,22 @@ def index():
 def test():
     return render_template('test.html')
 
-@app.route ('/login')
+@app.route('/login')
 def login():
+    # sketchy way of redir back to original caller
+    session['redir'] = request.args.get('redir') if 'redir' in request.args else '/' 
     if not google.authorized:
         return redirect(url_for("google.login"))
+    return redirect('/login_success')
+
+@app.route('/login_success')
+def login_success():
     resp = google.get("/oauth2/v2/userinfo")
     session['uid'] = resp.json()['email']
     session['given_name'] = resp.json()['given_name']
     print(resp.json())
     print("You are {email} on Google".format(email=resp.json()["email"]))
-    return redirect('/')
-
+    return redirect(session['redir'])
 
 @app.route('/about')
 def about():
@@ -64,7 +70,9 @@ def about():
 @app.route('/event/<eid>')
 @app.route('/e/<eid>')
 def event(eid): 
-    return redirect(url_for("google.login"))
+    if not google.authorized:
+        return redirect(url_for('login', redir=request.path))
+
     res = mongo.db['events'].find_one({'eid': eid})
     return render_template('event.html', uid=session['uid'], event=res)
     
@@ -77,7 +85,6 @@ def event_test(eid):
 def token_expired(e):
     del current_app.blueprints['google'].token
     return redirect(url_for("google.login"))
-
 
 ### API
 
