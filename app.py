@@ -188,6 +188,9 @@ def get_calendar():
                 slot = int(initial_delay.total_seconds() / 60 / 15 + 0.5)
                 counter = 0
 
+                if slot < 0:
+                    counter = -slot
+
                 while (slot + counter < len(day) and event_start + datetime.timedelta(minutes=15*counter) < event_end):
                     day[slot + counter] = 0
                     counter += 1
