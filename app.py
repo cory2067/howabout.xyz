@@ -104,8 +104,7 @@ def get_calendar():
         'timeMin': start_date # '2011-06-03T10:00:00-07:00'
     }
 
-    calendars = [
-    ]
+    calendars = []
     events = []
     for cal in calendars:
         url = "/calendar/v3/calendars/{id}/events".format(id=cal)
