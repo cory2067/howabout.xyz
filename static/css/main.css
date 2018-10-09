@@ -20,6 +20,12 @@
   display: inline-block;
 }
 
+.time-slot {
+  width: 50px;
+  height: 20px;
+  border: 2px solid transparent;
+}
+
 .slot {
   width: 50px;
   height: 20px;

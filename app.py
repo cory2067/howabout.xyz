@@ -128,6 +128,7 @@ def get_calendars():
     eid: Event ID
     calendars[]: List of ID for desired calendars
 '''
+
 @app.route('/api/calendar')
 def get_calendar():
     if not google.authorized:

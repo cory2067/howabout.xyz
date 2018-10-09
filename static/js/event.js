@@ -21,7 +21,6 @@ function getAvail() {
         }
     }
 
-    console.log(avail);
     return avail;
 }
 
@@ -48,29 +47,55 @@ $(function() {
         width = res.length;
         height = res[0].length;
 
-		for (let date = 0; date < width; date++) {
-            $("#cal").append($("<div/>", { 
-                id: "date-" + date ,
-                class: "date"
-           }));
+		for (let date = 0; date < width+1; date++) {
+            if (date != 0) { // actual cal
+                $("#cal").append($("<div/>", { 
+                    id: "date-" + (date-1) ,
+                    class: "date"
+                }));
 
-            let label = $('<div>', {
-                class: "slot"
-            });
+    			for (let slot = 0; slot < height; slot++) {
+                    let elt = $('<div>', {
+                        id: "slot-" + (date-1) + "-" + slot,
+                        class: "slot"
+                    });
 
-			for (let slot = 0; slot < height; slot++) {
-                let elt = $('<div>', {
-                    id: "slot-" + date + "-" + slot,
-                    class: "slot"
+                    if (res[date-1][slot]) {
+                        elt.addClass("selected");
+                    }
+
+                    console.log("wat");
+                    $('#date-' + (date-1)).append(elt);
+    				console.log(res[date-1][slot]);
+    			}
+            } else { // set up times
+                $("#cal").append($("<div/>", {
+                    id: "time-labels",
+                    class: "date"
+                }));
+
+                $.getJSON('/api/event/'+eid, function (res2) {
+                    res2 = $.parseJSON(res2);
+                    start = res2['start_time']
+                    end = res2['end_time']
+                    console.log(start);
+
+                    // create Moment obj of start time
+                    var m = moment(start.substring(0,5), 'HH:mm');
+                    for (let slot = 0; slot < height; slot++) {
+                        var s = m.toString()
+                        $('<div>', {
+                            id: "time-" + slot,
+                            class: "time-slot"
+                        }).appendTo('#time-labels');
+                        $('<p>', {
+                            id: "time-" + slot + "-content",
+                            text: s.substring(s.indexOf(':')-2,s.indexOf(':')+3).trim()
+                        }).appendTo('#time-' + slot)
+                        m.add(15, 'm')
+                    }
                 });
-
-                if (res[date][slot]) {
-                    elt.addClass("selected");
-                }
-
-                $('#date-' + date).append(elt);
-				console.log(res[date][slot]);
-			}
+            }
 		}
 
         $('.slot').mouseenter(toggle);

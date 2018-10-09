@@ -15,6 +15,7 @@
 <div class="container">
 	<div id="cal" class="sidebyside">
         <div id="date-header-div" style="height: 36px">
+        	<p class="date-header"> </p> <!-- nothing so spacing is correct -->
             {% for d in event["dates"] %}
                 <p class="date-header">{{'-'.join(d.split('-')[1:])}}</p>
             {% endfor %}
